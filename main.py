@@ -52,15 +52,36 @@ def show_contacts():
     for contact in contacts:
         print(contact)
 
+def search_contact():
+    name = input("Enter name to search: ")
+
+    connection = sqlite3.connect("contacts.db")
+    cursor = connection.cursor()
+
+    cursor.execute(
+        "SELECT * FROM contacts WHERE name LIKE ?",
+        (f"%{name}%",)
+    )
+
+    contacts = cursor.fetchall()
+
+    connection.close()
+
+    if contacts:
+        for contact in contacts:
+            print(contact)
+    else:
+        print("No contacts found.")
+
 
 def main():
     create_database()
 
     while True:
-        print("\n===== Contact Manager =====")
-        print("1. Add contact")
-        print("2. Show contacts")
-        print("3. Exit")
+       print("1. Add contact")
+       print("2. Show contacts")
+       print("3. Search contact")
+       print("4. Exit")
 
         choice = input("Enter your choice: ")
 
@@ -71,6 +92,9 @@ def main():
             show_contacts()
 
         elif choice == "3":
+            search_contact()
+
+        elif choice == "4":
             print("Goodbye!")
             break
 
