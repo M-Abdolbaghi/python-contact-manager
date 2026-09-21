@@ -73,6 +73,29 @@ def search_contact():
     else:
         print("No contacts found.")
 
+def update_contact():
+    contact_id = int(input("Enter contact ID: "))
+    name = input("Enter new name: ")
+    phone = input("Enter new phone: ")
+    number = int(input("Enter new number: "))
+
+    connection = sqlite3.connect("contacts.db")
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        UPDATE contacts
+        SET name = ?, phone = ?, number = ?
+        WHERE id = ?
+        """,
+        (name, phone, number, contact_id)
+    )
+
+    connection.commit()
+    connection.close()
+
+    print("Contact updated successfully.")
+
 
 def main():
     create_database()
@@ -81,7 +104,8 @@ def main():
        print("1. Add contact")
        print("2. Show contacts")
        print("3. Search contact")
-       print("4. Exit")
+       print("4. Update contact")
+       print("5. Exit")
 
         choice = input("Enter your choice: ")
 
@@ -91,12 +115,15 @@ def main():
         elif choice == "2":
             show_contacts()
 
-        elif choice == "3":
-            search_contact()
+       elif choice == "3":
+        search_contact()
 
-        elif choice == "4":
-            print("Goodbye!")
-            break
+       elif choice == "4":
+           update_contact()
+
+       elif choice == "5":
+           print("Goodbye!")
+           break
 
         else:
             print("Invalid choice.")
