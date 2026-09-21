@@ -137,7 +137,7 @@ def main():
             search_contact()
 
         elif choice == "4":
-             update_contact()
+            update_contact()
 
         elif choice == "5":
             delete_contact()
