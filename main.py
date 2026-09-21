@@ -98,18 +98,33 @@ def update_contact():
 
     print("Contact updated successfully.")
 
+def delete_contact():
+    contact_id = int(input("Enter contact ID: "))
+
+    connection = sqlite3.connect("contacts.db")
+    cursor = connection.cursor()
+
+    cursor.execute(
+        "DELETE FROM contacts WHERE id = ?",
+        (contact_id,)
+    )
+
+    connection.commit()
+    connection.close()
+
+    print("Contact deleted successfully.")
+
 
 def main():
     create_database()
 
     while True:
-        print("\n===== Contact Manager =====")
         print("1. Add contact")
         print("2. Show contacts")
         print("3. Search contact")
         print("4. Update contact")
-        print("5. Exit")
-
+        print("5. Delete contact")
+        print("6. Exit")
         choice = input("Enter your choice: ")
 
         if choice == "1":
@@ -122,9 +137,12 @@ def main():
             search_contact()
 
         elif choice == "4":
-            update_contact()
+             update_contact()
 
         elif choice == "5":
+            delete_contact()
+
+        elif choice == "6":
             print("Goodbye!")
             break
 
